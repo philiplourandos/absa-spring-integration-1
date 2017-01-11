@@ -1,0 +1,40 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+        xsi:schemaLocation=
+                "http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context         http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/integration     http://www.springframework.org/schema/integration/spring-integration.xsd
+        http://www.springframework.org/schema/integration/file     http://www.springframework.org/schema/integration/file/spring-integration-file.xsd">
+
+    <context:annotation-config />
+
+    <int:channel id="inputchannel"/>
+    <int:channel id="channela"/>
+    <int:channel id="channel1"/>
+
+    <int-file:inbound-channel-adapter channel="inputchannel" id="filein" directory="file:/Users/bevynne/code/training/absa-spring-integration-1/src/main/resources/input">
+        <int:poller fixed-rate="100">
+        </int:poller>
+    </int-file:inbound-channel-adapter>
+
+    <int:router input-channel="inputchannel"
+                expression="payload.name">
+        <int:mapping value="a" channel="channela" />
+        <int:mapping value="1" channel="channel1" />
+    </int:router>
+
+    <int:service-activator input-channel="channela"
+                            ref="testservice"
+                            method="alpha"/>
+
+
+    <int:service-activator input-channel="channel1"
+                           ref="testservice"
+                           method="number"/>
+
+    <bean id="testservice" class="com.absa.training.olsen.service.TestService"/>
+</beans>
