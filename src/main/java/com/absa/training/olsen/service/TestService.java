@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class TestService {
     public void alpha(Message msg) {
-        System.out.println("Alhpa file: " + msg.getPayload().toString());
+        System.out.println("Alhpa file: " + msg.getPayload().toString() + "\n");
     }
 
     public void number(Message  msg) {
-        System.out.println("Numeric file: " + msg.getPayload().toString());
+        System.out.println("Numeric file: " + msg.getPayload().toString() + "\n");
     }
 }

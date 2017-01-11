@@ -12,27 +12,31 @@
 
     <context:annotation-config />
 
-    <int:channel id="inputchannel"/>
-    <int:channel id="channela"/>
-    <int:channel id="channel1"/>
+    <int:channel id="input"/>
+    <int:channel id="outputAlpha"/>
+    <int:channel id="outputNumeric"/>
 
-    <int-file:inbound-channel-adapter channel="inputchannel" id="filein" directory="file:/Users/bevynne/code/training/absa-spring-integration-1/src/main/resources/input">
+    <int-file:inbound-channel-adapter channel="input" id="filein" directory="file:/Users/sascha/git/absa-spring-integration-1/src/main/resources/input">
         <int:poller fixed-rate="100">
         </int:poller>
     </int-file:inbound-channel-adapter>
 
-    <int:router input-channel="inputchannel"
+    <int:router input-channel="input"
                 expression="payload.name">
-        <int:mapping value="a" channel="channela" />
-        <int:mapping value="1" channel="channel1" />
+        <int:mapping value="a" channel="outputAlpha" />
+        <int:mapping value="1" channel="outputNumeric" />
+        <int:mapping value="b" channel="outputAlpha" />
+        <int:mapping value="2" channel="outputNumeric" />
+        <int:mapping value="c" channel="outputAlpha" />
+        <int:mapping value="3" channel="outputNumeric" />
     </int:router>
 
-    <int:service-activator input-channel="channela"
+    <int:service-activator input-channel="outputAlpha"
                             ref="testservice"
                             method="alpha"/>
 
 
-    <int:service-activator input-channel="channel1"
+    <int:service-activator input-channel="outputNumeric"
                            ref="testservice"
                            method="number"/>
 
