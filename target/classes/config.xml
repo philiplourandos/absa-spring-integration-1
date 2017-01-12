@@ -16,7 +16,7 @@
     <int:channel id="outputAlpha"/>
     <int:channel id="outputNumeric"/>
 
-    <int-file:inbound-channel-adapter channel="input" id="filein" directory="file:/Users/sascha/git/absa-spring-integration-1/src/main/resources/input">
+    <int-file:inbound-channel-adapter channel="input" id="filein" directory="classpath:/input">
         <int:poller fixed-rate="100">
         </int:poller>
     </int-file:inbound-channel-adapter>
